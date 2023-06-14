@@ -41,7 +41,7 @@ public class ESOperator {
 
             SearchResponse<Document> docResponse = elasticsearchClient.search(s -> s
                             .index(index)
-                            .size(100)
+                            .size(1000)
                             .source(config -> config
                                     .filter(filter -> filter
                                             .includes(fields)))
@@ -50,6 +50,7 @@ public class ESOperator {
             for (Hit<Document> hit : hits) {
                 Document source = hit.source();
                 HashMap<String, String> sourceMap = new HashMap<>();
+                assert source != null;
                 sourceMap.put("title", source.getTitle());
                 sourceMap.put("content", source.getContent());
                 BigInteger bigInteger = extractFinger(sourceMap);
@@ -79,9 +80,9 @@ public class ESOperator {
     /**
      * 计算被分为四个short类型的数 的 海明距离
      *
-     * @param value1
-     * @param value2
-     * @return
+     * @param value1 1
+     * @param value2 2
+     * @return int
      */
     private static int hamingDistance(Short[] value1, Short[] value2) {
         int distance = 0;
@@ -137,7 +138,7 @@ public class ESOperator {
 
     public void bulkIndex(String index, List<Map<String, Object>> docs) {
         BulkRequest of = BulkRequest.of(builder -> builder.operations(docs.stream()
-                .map(doc -> BulkOperation.of(b -> b.index(i -> i.index(index).document(doc)))).collect(Collectors.toList()))
+                .map(doc -> BulkOperation.of(b -> b.index(i -> i.index(index).id(doc.get("docNo").toString()).document(doc)))).collect(Collectors.toList()))
         );
         try {
             BulkResponse bulkResponse = elasticsearchClient.bulk(of);
