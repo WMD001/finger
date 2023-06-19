@@ -8,3 +8,19 @@ tech:
   pic-index: picture
   file-index: file
   preview-service-host: http://192.168.1.191:8102
+web-index:
+  index-document-configs:
+    - page-url: https://photo.cctv.com/data/index.json
+      json-array-path: $.rollData
+      field-configs:
+        - field-name: title
+        - field-name: image
+          alias: imageUrl
+        - field-name: id
+          alias: docNo
+        - field-name: url
+          alias: dataSource
+        - field-name: dateTime
+        - field-name: content
+
+

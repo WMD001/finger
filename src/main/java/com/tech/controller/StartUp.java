@@ -3,9 +3,13 @@ package com.tech.controller;
 import com.tech.data.ESOperator;
 import com.tech.data.spider.GetNews;
 import com.tech.data.spider.GetPics;
+import com.tech.data.spider.news.index.GetData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -19,11 +23,13 @@ public class StartUp {
     private final GetNews getNews;
     private final GetPics getPics;
     private final ESOperator esOperator;
+    private final GetData getData;
 
-    public StartUp(GetNews getNews, GetPics getPics, ESOperator esOperator) {
+    public StartUp(GetNews getNews, GetPics getPics, ESOperator esOperator, GetData getData) {
         this.getNews = getNews;
         this.getPics = getPics;
         this.esOperator = esOperator;
+        this.getData = getData;
     }
 
     @GetMapping("/startNewsData")
@@ -47,6 +53,12 @@ public class StartUp {
     @GetMapping("/startSetFinger")
     public void startSetFinger() {
         esOperator.setFinger("web_news");
+    }
+
+    @GetMapping("/startIndex")
+    public void startIndex() {
+        List<Map<String, String>> index = getData.index();
+        log.info("采集数据条数：" + index.size());
     }
 
 }
