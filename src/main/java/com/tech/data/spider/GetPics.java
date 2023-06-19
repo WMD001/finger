@@ -80,7 +80,12 @@ public class GetPics {
             doc.put("dataSource", item.get("url"));
             doc.put("base64Img", imgUrlToBase64(item.get("image").toString()));
             doc.put("imageUrl", item.get("image"));
+            doc.put("dateTime", getDateTime(item.get("dateTime").toString()));
             return doc;
+        }
+
+        private String getDateTime(String dateTime) {
+            return dateTime + ":00";
         }
 
         private List<String> getDetails(Map<String, Object> item) {

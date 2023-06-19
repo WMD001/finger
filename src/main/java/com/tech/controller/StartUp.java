@@ -46,7 +46,7 @@ public class StartUp {
 
     @GetMapping("/startSetFinger")
     public void startSetFinger() {
-        esOperator.setFinger("web_1");
+        esOperator.setFinger("web_news");
     }
 
 }

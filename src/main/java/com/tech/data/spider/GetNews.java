@@ -38,7 +38,7 @@ public class GetNews {
     private final static String domain = "https://news.cctv.com";
 
     public void getPage(String pageUrl) {
-        WriteRunner writeRunner = new WriteRunner("web_1", pageUrl);
+        WriteRunner writeRunner = new WriteRunner("web_news", pageUrl);
         writeRunner.start();
     }
 

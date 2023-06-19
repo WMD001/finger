@@ -142,9 +142,14 @@ public class ESOperator {
         );
         try {
             BulkResponse bulkResponse = elasticsearchClient.bulk(of);
-            bulkResponse.items().stream().collect(Collectors.groupingBy(BulkResponseItem::result)).forEach((k , v) -> {
-                log.info(k + ": " + v.size());
-            });
+//            bulkResponse.items().stream().collect(Collectors.groupingBy(BulkResponseItem::result)).forEach((k , v) -> {
+//                log.info(k + ": " + v.size());
+//            });
+            if (bulkResponse.errors()) {
+                log.error("写入出现异常");
+            } else {
+                log.info("写入完成");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
